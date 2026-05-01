@@ -1,9 +1,9 @@
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { CalendarGrid } from "@/components/calendar/CalendarGrid";
 
 export default async function CalendarPage() {
-  const session = await auth();
+  const session = await getSession();
 
   const now = new Date();
   const year = now.getFullYear();

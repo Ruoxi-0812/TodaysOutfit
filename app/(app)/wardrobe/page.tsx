@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Category } from "@prisma/client";
 import { ClothingGrid } from "@/components/wardrobe/ClothingGrid";
@@ -20,7 +20,7 @@ const MAIN_CATEGORIES: { value: Category; label: string }[] = [
 ];
 
 export default async function WardrobePage({ searchParams }: WardrobePageProps) {
-  const session = await auth();
+  const session = await getSession();
   const { category } = await searchParams;
 
   const validCategory =

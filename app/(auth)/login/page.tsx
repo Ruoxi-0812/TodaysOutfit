@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { HangerIcon } from "@/components/ui/HangerIcon";
@@ -25,14 +24,18 @@ function LoginForm() {
     setLoading(true);
 
     const form = new FormData(e.currentTarget);
-    const result = await signIn("credentials", {
-      email: form.get("email"),
-      password: form.get("password"),
-      redirect: false,
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.get("email"),
+        password: form.get("password"),
+      }),
     });
 
-    if (result?.error) {
-      setError("Invalid email or password");
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.error ?? "Invalid email or password");
       setLoading(false);
     } else {
       router.push("/wardrobe");

@@ -2,8 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 import { HangerIcon } from "@/components/ui/HangerIcon";
 
 const NAV_LINKS = [
@@ -61,6 +60,7 @@ function MenuIcon({ icon }: { icon: "profile" | "settings" | "add" | "logout" })
 
 export function AppNav({ userName, userEmail, userImage }: AppNavProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -170,7 +170,10 @@ export function AppNav({ userName, userEmail, userImage }: AppNavProps) {
                   </Link>
                 ))}
                 <button
-                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  onClick={async () => {
+                    await fetch("/api/auth/logout", { method: "POST" });
+                    router.push("/login");
+                  }}
                   className="flex items-center gap-3 px-7 py-3 text-white hover:bg-white/10 transition-colors w-full"
                 >
                   <MenuIcon icon="logout" />

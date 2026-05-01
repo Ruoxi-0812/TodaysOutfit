@@ -1,10 +1,10 @@
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { OutfitBuilder } from "@/components/outfits/OutfitBuilder";
 
 export default async function NewOutfitPage() {
-  const session = await auth();
+  const session = await getSession();
 
   const wardrobeItems = await prisma.clothingItem.findMany({
     where: { userId: session!.user!.id },

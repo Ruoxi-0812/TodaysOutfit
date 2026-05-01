@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { OutfitBuilder } from "@/components/outfits/OutfitBuilder";
@@ -9,7 +9,7 @@ interface PageProps {
 }
 
 export default async function EditOutfitPage({ params }: PageProps) {
-  const session = await auth();
+  const session = await getSession();
   const { id } = await params;
 
   const [outfit, wardrobeItems] = await Promise.all([

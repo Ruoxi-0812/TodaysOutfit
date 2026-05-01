@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { cloudinary } from "@/lib/cloudinary";
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }

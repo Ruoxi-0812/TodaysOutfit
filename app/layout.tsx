@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Josefin_Sans, Lora, Montserrat } from "next/font/google";
-import { SessionProviderWrapper } from "@/components/layout/SessionProviderWrapper";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -47,7 +46,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${josefinSans.variable} ${lora.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <SessionProviderWrapper>{children}</SessionProviderWrapper>
+        {children}
       </body>
     </html>
   );

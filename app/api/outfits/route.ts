@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(_request: Request) {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
   const outfits = await prisma.outfit.findMany({
@@ -20,7 +20,7 @@ export async function GET(_request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user?.id) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await request.json();
